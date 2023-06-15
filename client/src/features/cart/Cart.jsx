@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import './Cart.css';
 import {AiOutlineCloseCircle} from 'react-icons/ai'
+import CartCard from './CartCard';
 
 const Container = styled.div`
     height: 100vh; 
-    width: 20vw; 
+    width: 40vw; 
     position: absolute; 
     z-index: 1; 
     top: 0;
@@ -19,11 +20,13 @@ const Cart = ({open, setOpen}) => {
     return (
         <Container id='cart' className={open ? 'open-cart' : 'close-cart'}>
             <AiOutlineCloseCircle
-                style={{cursor: 'pointer'}} 
+                style={{cursor: 'pointer', margin: '10px'}} 
                 onClick={() => setOpen(false)} 
             />
             {
-                // product && product.map()
+                cart && cart.map(product => (
+                    <CartCard key={product.id} product={product} />
+                ))
             }
         </Container>
     );
