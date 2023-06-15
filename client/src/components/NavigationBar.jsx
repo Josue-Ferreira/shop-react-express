@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   Collapse,
@@ -8,13 +9,16 @@ import {
   Nav,
   NavItem,
   NavLink,
-  NavbarText,
+  Button,
 } from 'reactstrap';
+import {AiOutlineShoppingCart} from 'react-icons/ai'
 
 function NavigationBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const cart = useSelector(state => state.cart.content);
 
   return (
     <div>
@@ -34,7 +38,12 @@ function NavigationBar() {
               </NavLink>
             </NavItem>
           </Nav>
-          <NavbarText>Simple Text</NavbarText>
+          <Button>
+            <AiOutlineShoppingCart /> Cart 
+            {
+              cart && ` (${cart.length})`
+            }
+          </Button>
         </Collapse>
       </Navbar>
     </div>

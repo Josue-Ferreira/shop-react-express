@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { add, remove } from '../features/cart/cartSlice';
 import {
     Card,
     CardBody,
@@ -6,7 +8,7 @@ import {
     CardSubtitle,
     Button
 } from 'reactstrap';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Image = styled.img`
     max-width: 100px;
@@ -20,6 +22,20 @@ const ImageContainer = styled.div`
 `;
 
 const ProductCard = ({product}) => {
+    const dispatch = useDispatch();
+    const inCart = useSelector(state => state.cart.content);
+
+    const handleCart = () => {
+        if(inCart == null || !inCart.some(cartProduct => cartProduct.id == product.id)) 
+            dispatch(add(product));
+        else if(inCart.some(cartProduct => cartProduct.id == product.id))
+            dispatch(remove(product));
+    }
+
+    const isInCart = () => {
+        return inCart && inCart.some(cartProduct => cartProduct.id == product.id);
+    }
+
     return (
         <Card style={{height: '25rem', margin: '10px'}}>
             <ImageContainer>
@@ -40,8 +56,15 @@ const ProductCard = ({product}) => {
                         {product.category}
                     </CardSubtitle>
                 </div>
-                <Button color="success">
-                    Add to cart
+                <Button 
+                    color={isInCart() ? "danger" : "success"}
+                    onClick={handleCart}
+                    >
+                    { 
+                        isInCart() 
+                            ? 'Remove from cart' 
+                            : 'Add to cart'
+                    }
                 </Button>
             </CardBody>
         </Card>

@@ -12,7 +12,7 @@ const ProductsList = ({products}) => {
             <Row xs="4">
                 {
                     products && products.map(product => (
-                        <Col >
+                        <Col key={product.id}>
                             <ProductCard product={product} />
                         </Col>
                     ))
