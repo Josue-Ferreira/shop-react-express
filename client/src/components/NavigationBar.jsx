@@ -12,11 +12,12 @@ import {
   Button,
 } from 'reactstrap';
 import {AiOutlineShoppingCart} from 'react-icons/ai'
+import Cart from '../features/cart/Cart';
 
 function NavigationBar() {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
+  const [openCart, setOpenCart] = useState(false);
 
   const cart = useSelector(state => state.cart.content);
 
@@ -38,7 +39,7 @@ function NavigationBar() {
               </NavLink>
             </NavItem>
           </Nav>
-          <Button>
+          <Button onClick={() => setOpenCart(true)} >
             <AiOutlineShoppingCart /> Cart 
             {
               cart && ` (${cart.length})`
@@ -46,6 +47,7 @@ function NavigationBar() {
           </Button>
         </Collapse>
       </Navbar>
+      <Cart open={openCart} setOpen={setOpenCart} />
     </div>
   );
 }
