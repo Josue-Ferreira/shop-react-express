@@ -2,6 +2,8 @@ import React from 'react';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
 import {MdOutlineDelete} from 'react-icons/md'
+import { useDispatch } from 'react-redux';
+import { remove } from './cartSlice';
 
 const Container = styled.div`
     display: flex;
@@ -17,12 +19,14 @@ const Image = styled.img`
 `;
 
 const CartCard = ({product}) => {
+    const dispatch = useDispatch();
+
     return (
         <Container>
             <Image src={product.image} />
             <div>{product.title}</div>
             <div>{product.price}€</div>
-            <Button color='danger' style={{}}>
+            <Button color='danger' onClick={() => dispatch(remove(product))} >
                 <MdOutlineDelete />
             </Button>
         </Container>

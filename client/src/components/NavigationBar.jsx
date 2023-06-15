@@ -39,7 +39,7 @@ function NavigationBar() {
               </NavLink>
             </NavItem>
           </Nav>
-          <Button onClick={() => setOpenCart(true)} >
+          <Button onClick={() => cart && setOpenCart(true)} >
             <AiOutlineShoppingCart /> Cart 
             {
               cart && ` (${cart.length})`
@@ -47,7 +47,9 @@ function NavigationBar() {
           </Button>
         </Collapse>
       </Navbar>
-      <Cart open={openCart} setOpen={setOpenCart} />
+      {
+        cart && (<Cart open={openCart} setOpen={setOpenCart} />)
+      }
     </div>
   );
 }

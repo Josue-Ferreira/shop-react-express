@@ -16,9 +16,11 @@ export const cartSlice = createSlice({
             const index = state.content.findIndex(cartProduct => cartProduct.id == action.payload.id);
             if(state.content != null && index != -1)
                 state.content.splice(index,1);
+            if(state.content.length == 0)
+                state.content = null;
         },
         removeAll: (state) => {
-
+            state.content = null;
         }
     }
 });

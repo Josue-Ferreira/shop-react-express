@@ -1,9 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import './Cart.css';
 import {AiOutlineCloseCircle} from 'react-icons/ai'
 import CartCard from './CartCard';
+import { Button } from 'reactstrap';
+import { removeAll } from './cartSlice';
 
 const Container = styled.div`
     height: 100vh; 
@@ -15,6 +17,7 @@ const Container = styled.div`
 `;
 
 const Cart = ({open, setOpen}) => {
+    const dispatch = useDispatch();
     const cart = useSelector(state => state.cart.content);
 
     return (
@@ -28,6 +31,9 @@ const Cart = ({open, setOpen}) => {
                     <CartCard key={product.id} product={product} />
                 ))
             }
+            <Button color='danger' onClick={() => dispatch(removeAll())} >
+                Delete Cart
+            </Button>
         </Container>
     );
 };
