@@ -4,36 +4,44 @@ import {
     CardBody,
     CardTitle,
     CardSubtitle,
-    CardText,
     Button
 } from 'reactstrap';
+import styled from 'styled-components'
 
-const ProductCard = () => {
+const Image = styled.img`
+    max-width: 100px;
+    align-items: center;
+`;
+
+const ImageContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+`;
+
+const ProductCard = ({product}) => {
     return (
-        <Card
-            style={{
-                width: '18rem'
-            }}
-            >
-            <img
-                alt="Sample"
-                src="https://picsum.photos/300/200"
-            />
-            <CardBody>
-                <CardTitle tag="h5">
-                    Card title
-                </CardTitle>
-                <CardSubtitle
-                    className="mb-2 text-muted"
-                    tag="h6"
-                    >
-                    Card subtitle
-                </CardSubtitle>
-                <CardText>
-                    Some quick example text to build on the card title and make up the bulk of the card‘s content.
-                </CardText>
-                <Button>
-                    Button
+        <Card style={{height: '25rem', margin: '10px'}}>
+            <ImageContainer>
+                <Image
+                    alt="clothe"
+                    src={product.image}
+                />
+            </ImageContainer>
+            <CardBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                <div>
+                    <CardTitle tag="h5">
+                        {product.title}
+                    </CardTitle>
+                    <CardSubtitle
+                        className="mb-2 text-muted"
+                        tag="h6"
+                        >
+                        {product.category}
+                    </CardSubtitle>
+                </div>
+                <Button color="success">
+                    Add to cart
                 </Button>
             </CardBody>
         </Card>

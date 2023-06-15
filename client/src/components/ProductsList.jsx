@@ -6,22 +6,17 @@ import {
     Col
 } from 'reactstrap'
 
-const ProductsList = () => {
+const ProductsList = ({products}) => {
     return (
         <Container>
             <Row xs="4">
-                <Col >
-                    <ProductCard />
-                </Col>
-                <Col >
-                    <ProductCard />
-                </Col>
-                <Col >
-                    <ProductCard />
-                </Col>
-                <Col >
-                    <ProductCard />
-                </Col>
+                {
+                    products && products.map(product => (
+                        <Col >
+                            <ProductCard product={product} />
+                        </Col>
+                    ))
+                }
             </Row>
         </Container>
     );
