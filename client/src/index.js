@@ -9,11 +9,21 @@ import Home from './pages/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import store from './app/store';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />
+  },
+  {
+    path: '/sign-in',
+    element: <Signin />
+  },
+  {
+    path: '/sign-up',
+    element: <Signup />
   }
 ]);
 

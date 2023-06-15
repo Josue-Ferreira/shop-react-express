@@ -39,6 +39,14 @@ function NavigationBar() {
               </NavLink>
             </NavItem>
           </Nav>
+          <Button 
+            color='primary' 
+            style={{marginRight: "10px"}}
+            tag={Link}
+            to='/sign-in'
+            >
+            Sign In
+          </Button>
           <Button onClick={() => cart && setOpenCart(true)} >
             <AiOutlineShoppingCart /> Cart 
             {
