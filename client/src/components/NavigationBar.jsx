@@ -41,15 +41,29 @@ function NavigationBar() {
               </NavLink>
             </NavItem>
           </Nav>
-          <Button 
-            color='primary' 
-            style={{marginRight: "10px"}}
-            tag={Link}
-            to='/sign-in'
-            >
-            {user ? null : <BsPersonCircle style={{marginRight: '5px'}} />}
-            {user ? `Hello ${user.first_name}` : 'Sign In'}
-          </Button>
+          {
+            user 
+            ? (
+                <Button 
+                  color='primary' 
+                  style={{marginRight: "10px"}}
+                  tag={Link}
+                  to='/profile'
+                  >
+                  {`Hello ${user.first_name}`}
+                </Button>
+            )
+            : (
+              <Button 
+                  color='primary' 
+                  style={{marginRight: "10px"}}
+                  tag={Link}
+                  to='/sign-in'
+                  >
+                  <BsPersonCircle style={{marginRight: '5px'}} />Sign In
+              </Button>
+            )
+          }
           <Button onClick={() => cart && setOpenCart(true)} >
             <AiOutlineShoppingCart /> Cart 
             {
