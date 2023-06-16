@@ -20,6 +20,14 @@ const Cart = ({open, setOpen}) => {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart.content);
 
+    const totalPrice = () => {
+        let total = 0;
+        cart.forEach(element => {
+            total += element.price;
+        });
+        return total;
+    }
+
     return (
         <Container id='cart' className={open ? 'open-cart' : 'close-cart'}>
             <AiOutlineCloseCircle
@@ -31,6 +39,7 @@ const Cart = ({open, setOpen}) => {
                     <CartCard key={product.id} product={product} />
                 ))
             }
+            <h3>{`Price : ${totalPrice()}`}</h3>
             <Button color='danger' onClick={() => dispatch(removeAll())} >
                 Delete Cart
             </Button>
