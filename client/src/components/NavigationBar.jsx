@@ -12,12 +12,14 @@ import {
   Button,
 } from 'reactstrap';
 import {AiOutlineShoppingCart} from 'react-icons/ai'
+import {BsPersonCircle} from 'react-icons/bs'
 import Cart from '../features/cart/Cart';
 
 function NavigationBar() {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const [openCart, setOpenCart] = useState(false);
+  const user = useSelector(state => state.user.profile);
 
   const cart = useSelector(state => state.cart.content);
 
@@ -45,7 +47,8 @@ function NavigationBar() {
             tag={Link}
             to='/sign-in'
             >
-            Sign In
+            {user ? null : <BsPersonCircle style={{marginRight: '5px'}} />}
+            {user ? `Hello ${user.first_name}` : 'Sign In'}
           </Button>
           <Button onClick={() => cart && setOpenCart(true)} >
             <AiOutlineShoppingCart /> Cart 
