@@ -25,6 +25,7 @@ const ActionCart = styled.div`
 const Cart = ({open, setOpen}) => {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart.content);
+    const user = useSelector(state => state.user.profile);
 
     const totalPrice = () => {
         let total = 0;
@@ -37,14 +38,27 @@ const Cart = ({open, setOpen}) => {
     const saveCartOnDB = async() => {
         const products_id = []; 
         cart.forEach(product => products_id.push(product.id));
-        const responseDB = await fetch('/cart',{
-            method: "POST",
-            headers:{
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({"products_id": products_id})
-        });
-        console.log(responseDB);
+        let responseDB = await fetch('/cart/'+user.id);
+        const responseJson = await responseDB.json();
+        
+        if(responseJson.length == 0){
+            responseDB = await fetch('/cart',{
+                method: "POST",
+                headers:{
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({"products_id": products_id, "user_id": user.id})
+            });
+        }else{
+            responseDB = await fetch('/cart',{
+                method: "PUT",
+                headers:{
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({"products_id": products_id, "user_id": user.id})
+            });
+        }
+        console.log(responseJson);
     }
 
     const deleteCart = async() => {
@@ -52,7 +66,11 @@ const Cart = ({open, setOpen}) => {
         setOpen(false);
 
         const responseDB = await fetch('/cart',{
-            method: "DELETE"
+            method: "DELETE",
+            headers:{
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({"user_id": user.id})
         });
         console.log(responseDB);
     }
