@@ -65,21 +65,21 @@ const Cart = ({open, setOpen}) => {
         dispatch(removeAll());
         setOpen(false);
 
-        if(user){
-            let responseDB = await fetch('/cart/'+user.id);
-            const responseJson = await responseDB.json();
+        // if(user){
+        //     let responseDB = await fetch('/cart/'+user.id);
+        //     const responseJson = await responseDB.json();
         
-            if(responseJson.length != 0){
-                const responseDB = await fetch('/cart',{
-                    method: "DELETE",
-                    headers:{
-                        "Content-type": "application/json"
-                    },
-                    body: JSON.stringify({"user_id": user.id})
-                });
-                console.log(responseDB);
-            }
-        }
+        //     if(responseJson.length != 0){
+        //         const responseDB = await fetch('/cart',{
+        //             method: "DELETE",
+        //             headers:{
+        //                 "Content-type": "application/json"
+        //             },
+        //             body: JSON.stringify({"user_id": user.id})
+        //         });
+        //         console.log(responseDB);
+        //     }
+        // }
     }
 
     return (
