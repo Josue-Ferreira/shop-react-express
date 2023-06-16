@@ -14,9 +14,9 @@ const getAllCarts = (req, res) => {
 }
 
 const getCart = (req, res) => {
-    const id = req.params.id;
+    const user_id = req.params.userid;
 
-    database.query('SELECT * FROM cart WHERE id=?', [id],
+    database.query('SELECT * FROM cart WHERE user_id=?', [user_id],
         (err, results, fields) => {
             if(err){
                 res.sendStatus(500);
@@ -30,7 +30,9 @@ const getCart = (req, res) => {
 
 const createCart = (req, res) => {
     const valueToInsert = `[${req.body.products_id}]`;
-    database.query('INSERT INTO cart(products_id) VALUES (?)',[valueToInsert],
+    const {user_id} = req.body;
+
+    database.query('INSERT INTO cart(products_id,user_id) VALUES (?,?)',[valueToInsert,user_id],
         (err, results, fields) => {
             if(err){
                 res.sendStatus(500);
@@ -44,10 +46,10 @@ const createCart = (req, res) => {
 }
 
 const updateCart = (req, res) => {
-    const id = req.params.id;
     const valueToUpdate = `[${req.body.products_id}]`;
+    const {user_id} = req.body;
 
-    database.query('UPDATE cart SET products_id=? WHERE id=?',[valueToUpdate,id],
+    database.query('UPDATE cart SET products_id=? WHERE user_id=?',[valueToUpdate,user_id],
         (err, results, fields) => {
             if(err){
                 res.sendStatus(500);
@@ -60,9 +62,9 @@ const updateCart = (req, res) => {
 }
 
 const deleteCart = (req, res) => {
-    const id = req.params.id;
+    const {user_id} = req.body;
 
-    database.query('DELETE FROM cart WHERE id=?',[id],
+    database.query('DELETE FROM cart WHERE user_id=?',[user_id],
         (err, results, fields) => {
             if(err){
                 res.sendStatus(500);
