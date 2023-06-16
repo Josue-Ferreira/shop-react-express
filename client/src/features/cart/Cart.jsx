@@ -16,6 +16,12 @@ const Container = styled.div`
     background-color: white;
 `;
 
+const ActionCart = styled.div`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+`;
+
 const Cart = ({open, setOpen}) => {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart.content);
@@ -26,6 +32,29 @@ const Cart = ({open, setOpen}) => {
             total += element.price;
         });
         return total;
+    }
+
+    const saveCartOnDB = async() => {
+        const products_id = []; 
+        cart.forEach(product => products_id.push(product.id));
+        const responseDB = await fetch('/cart',{
+            method: "POST",
+            headers:{
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({"products_id": products_id})
+        });
+        console.log(responseDB);
+    }
+
+    const deleteCart = async() => {
+        dispatch(removeAll());
+        setOpen(false);
+
+        const responseDB = await fetch('/cart',{
+            method: "DELETE"
+        });
+        console.log(responseDB);
     }
 
     return (
@@ -40,9 +69,14 @@ const Cart = ({open, setOpen}) => {
                 ))
             }
             <h3>{`Price : ${totalPrice()}`}</h3>
-            <Button color='danger' onClick={() => dispatch(removeAll())} >
-                Delete Cart
-            </Button>
+            <ActionCart>
+                <Button color='danger' onClick={deleteCart} >
+                    Delete Cart
+                </Button>
+                <Button color='success' onClick={saveCartOnDB} >
+                    Save Cart
+                </Button>
+            </ActionCart>
         </Container>
     );
 };
