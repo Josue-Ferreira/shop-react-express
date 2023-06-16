@@ -5,7 +5,7 @@ import './Cart.css';
 import {AiOutlineCloseCircle} from 'react-icons/ai'
 import CartCard from './CartCard';
 import { Button } from 'reactstrap';
-import { removeAll } from './cartSlice';
+import { removeAll} from './cartSlice';
 
 const Container = styled.div`
     height: 100vh; 

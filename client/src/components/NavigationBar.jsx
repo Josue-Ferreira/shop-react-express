@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { reload } from '../features/cart/cartSlice';
 import { Link } from 'react-router-dom';
 import {
   Collapse,
@@ -22,6 +23,18 @@ function NavigationBar() {
   const user = useSelector(state => state.user.profile);
 
   const cart = useSelector(state => state.cart.content);
+  const dispatch = useDispatch();
+
+  const getCartOnDB = async() => {
+    const responseDB = await fetch('/cart/'+user.id);
+    const responseJson = await responseDB.json();
+
+    const clothesRawData = await fetch('https://fakestoreapi.com/products');
+    const clothesJson = await clothesRawData.json();
+    
+    const cartOnDB = clothesJson.filter(product => responseJson[0].products_id.includes(product.id));
+    dispatch(reload(cartOnDB));
+  }
 
   return (
     <div>
@@ -44,6 +57,7 @@ function NavigationBar() {
           {
             user 
             ? (
+                <>
                 <Button 
                   color='primary' 
                   style={{marginRight: "10px"}}
@@ -52,6 +66,14 @@ function NavigationBar() {
                   >
                   {`Hello ${user.first_name}`}
                 </Button>
+                <Button 
+                  color='success' 
+                  style={{marginRight: "10px"}}
+                  onClick={getCartOnDB}
+                  >
+                  Get saved cart
+                </Button>
+                </>
             )
             : (
               <Button 
