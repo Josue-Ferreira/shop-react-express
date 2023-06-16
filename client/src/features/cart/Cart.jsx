@@ -65,14 +65,21 @@ const Cart = ({open, setOpen}) => {
         dispatch(removeAll());
         setOpen(false);
 
-        const responseDB = await fetch('/cart',{
-            method: "DELETE",
-            headers:{
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({"user_id": user.id})
-        });
-        console.log(responseDB);
+        if(user){
+            let responseDB = await fetch('/cart/'+user.id);
+            const responseJson = await responseDB.json();
+        
+            if(responseJson.length != 0){
+                const responseDB = await fetch('/cart',{
+                    method: "DELETE",
+                    headers:{
+                        "Content-type": "application/json"
+                    },
+                    body: JSON.stringify({"user_id": user.id})
+                });
+                console.log(responseDB);
+            }
+        }
     }
 
     return (
@@ -91,9 +98,11 @@ const Cart = ({open, setOpen}) => {
                 <Button color='danger' onClick={deleteCart} >
                     Delete Cart
                 </Button>
-                <Button color='success' onClick={saveCartOnDB} >
-                    Save Cart
-                </Button>
+                {
+                    user && (<Button color='success' onClick={saveCartOnDB} >
+                        Save Cart
+                    </Button>)
+                }
             </ActionCart>
         </Container>
     );
