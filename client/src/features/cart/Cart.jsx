@@ -58,10 +58,10 @@ const Cart = ({open, setOpen}) => {
                 saveCartOnDB();
                 console.log('saved cart on DB')
             }
-        }, 30000);
+        }, 10000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [user, cart]);
 
     return (
         <Container id='cart' className={open ? 'open-cart' : 'close-cart'}>

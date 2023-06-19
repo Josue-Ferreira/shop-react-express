@@ -1,5 +1,5 @@
-const Database = require('./Database');
-const Cart = require('./Cart');
+const Database = require('../model/Database');
+const Cart = require('../model/Cart');
 
 const database = new Database();
 database.connect();
