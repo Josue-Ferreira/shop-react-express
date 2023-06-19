@@ -18,6 +18,17 @@ import {
 import {AiOutlineShoppingCart} from 'react-icons/ai'
 import {BsPersonCircle} from 'react-icons/bs'
 import Cart from '../features/cart/Cart';
+import styled from 'styled-components';
+
+const UserMenu = styled.div`
+  margin: 5px 0;  
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover{
+    background-color: lightblue;
+  }
+`;
 
 function NavigationBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -86,13 +97,13 @@ function NavigationBar() {
                   toggle={() => setOpenUserMenu(!openUserMenu)}
                 >
                   <PopoverBody>
-                    <NavLink 
+                    <UserMenu
                       tag={Link} 
                       to='/profile'
                       style={{margin: '10px 0'}}
                       >
                       Profile
-                    </NavLink>
+                    </UserMenu>
                     <Button color='danger' onClick={handleLogOut} >Log out</Button>
                   </PopoverBody>
                 </Popover>
