@@ -37,7 +37,7 @@ const userGetProfile = (req, res) => {
         (err, results, fields) => {
             if(err || results.length == 0){
                 res.sendStatus(500);
-                throw err || 'No result';
+                // throw err || 'No result';
             }
             else if(bcrypt.compareSync(password,results[0].password)){
                 res.json(results);

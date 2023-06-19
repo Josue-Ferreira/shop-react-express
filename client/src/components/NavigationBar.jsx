@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { logOut } from '../features/user/userSlice';
 import { reload } from '../features/cart/cartSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -11,6 +12,9 @@ import {
   NavItem,
   NavLink,
   Button,
+  Popover,
+  PopoverHeader,
+  PopoverBody
 } from 'reactstrap';
 import {AiOutlineShoppingCart} from 'react-icons/ai'
 import {BsPersonCircle} from 'react-icons/bs'
@@ -21,9 +25,12 @@ function NavigationBar() {
   const toggle = () => setIsOpen(!isOpen);
   const [openCart, setOpenCart] = useState(false);
   const user = useSelector(state => state.user.profile);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
 
   const cart = useSelector(state => state.cart.content);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const getCartOnDB = async() => {
     const responseDB = await fetch('/cart/'+user.id);
@@ -34,6 +41,11 @@ function NavigationBar() {
     
     const cartOnDB = clothesJson.filter(product => responseJson[0].products_id.includes(product.id));
     dispatch(reload(cartOnDB));
+  }
+
+  const handleLogOut = () => {
+    dispatch(logOut());
+    navigate('/');
   }
 
   return (
@@ -61,11 +73,29 @@ function NavigationBar() {
                 <Button 
                   color='primary' 
                   style={{marginRight: "10px"}}
-                  tag={Link}
-                  to='/profile'
+                  id='userMenu'
+                  type='button'
                   >
                   {`Hello ${user.first_name}`}
                 </Button>
+                <Popover
+                  target="userMenu"
+                  placement="bottom"
+                  trigger="focus"
+                  isOpen={openUserMenu}
+                  toggle={() => setOpenUserMenu(!openUserMenu)}
+                >
+                  <PopoverBody>
+                    <NavLink 
+                      tag={Link} 
+                      to='/profile'
+                      style={{margin: '10px 0'}}
+                      >
+                      Profile
+                    </NavLink>
+                    <Button color='danger' onClick={handleLogOut} >Log out</Button>
+                  </PopoverBody>
+                </Popover>
                 <Button 
                   color='success' 
                   style={{marginRight: "10px"}}
