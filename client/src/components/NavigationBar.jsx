@@ -13,7 +13,6 @@ import {
   NavLink,
   Button,
   Popover,
-  PopoverHeader,
   PopoverBody
 } from 'reactstrap';
 import {AiOutlineShoppingCart} from 'react-icons/ai'
@@ -34,6 +33,7 @@ function NavigationBar() {
 
   const getCartOnDB = async() => {
     const responseDB = await fetch('/cart/'+user.id);
+    console.log(responseDB)
     const responseJson = await responseDB.json();
 
     const clothesRawData = await fetch('https://fakestoreapi.com/products');

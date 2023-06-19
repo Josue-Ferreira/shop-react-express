@@ -58,7 +58,7 @@ const Cart = ({open, setOpen}) => {
                 saveCartOnDB();
                 console.log('saved cart on DB')
             }
-        }, 5000);
+        }, 30000);
 
         return () => clearInterval(timer);
     }, []);
