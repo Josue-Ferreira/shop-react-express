@@ -28,21 +28,31 @@ const getCart = (req, res) => {
     });
 }
 
-const createCart = (req, res) => {
+const createCart = async(req, res) => {
     const valueToInsert = `[${req.body.products_id}]`;
     const {user_id} = req.body;
+    let is_Cart = false;
 
-    database.query('INSERT INTO cart(products_id,user_id) VALUES (?,?)',[valueToInsert,user_id],
+    database.query('DELETE FROM cart WHERE user_id=?',[user_id],
         (err, results, fields) => {
             if(err){
                 res.sendStatus(500);
+                console.log(err);
                 throw err;
-            }
-            else{
-                res.sendStatus(200); 
-            }
-        });
+            } 
 
+            database.query('INSERT INTO cart(products_id,user_id) VALUES (?,?)',[valueToInsert,user_id],
+                (err, results, fields) => {
+                    if(err){
+                        res.sendStatus(500);
+                        console.log(err);
+                        throw err;
+                    }
+                    else{
+                        res.sendStatus(200); 
+                    }
+            });
+    });
 }
 
 const updateCart = (req, res) => {

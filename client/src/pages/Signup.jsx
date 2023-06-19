@@ -6,9 +6,11 @@ import {
     Label,
     Input,
     FormFeedback,
-    Button
+    Button,
+    Alert
 } from 'reactstrap';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Title = styled.h2`
     text-align: center;
@@ -20,9 +22,25 @@ const Signup = () => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [warning, setWarning] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+        const responseDB = await fetch('/users',{
+            method: "POST",
+            headers:{
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({"first_name": firstName, "last_name": lastName, "email": email, "password": password})
+        });
+        if(responseDB.status == 200){
+            setWarning(false);
+            navigate('/sign-up/success');
+        }
+        else{
+            setWarning(true);
+        }
     }
 
     return (
@@ -36,6 +54,13 @@ const Signup = () => {
                 onSubmit={handleSubmit}
             >
                 <Title>Create an account</Title>
+                {
+                    warning && (
+                        <Alert color="danger">
+                            Sign-up failed : try again now or later please
+                        </Alert>
+                    )
+                }
                 <FormGroup >
                     <Label for="firstname">
                     Firstname
@@ -47,6 +72,7 @@ const Signup = () => {
                     type="text"
                     value={firstName}
                     onChange={e => setFirstName(e.target.value)}
+                    required
                     />
                 </FormGroup>
                 <FormGroup>
@@ -60,6 +86,7 @@ const Signup = () => {
                     type="text"
                     value={lastName}
                     onChange={e => setLastName(e.target.value)}
+                    required
                     />
                 </FormGroup>
                 <FormGroup>
@@ -73,6 +100,7 @@ const Signup = () => {
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    required
                     />
                 </FormGroup>
                 <FormGroup>
@@ -86,6 +114,7 @@ const Signup = () => {
                     type="password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
+                    required
                     />
                 </FormGroup>
                 <Button type='submit' color='primary' >

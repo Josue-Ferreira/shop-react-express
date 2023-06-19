@@ -39,7 +39,7 @@ function NavigationBar() {
   return (
     <div>
       <Navbar expand={'md'} >
-        <NavbarBrand href="/">Clothes Shop</NavbarBrand>
+        <NavbarBrand>Clothes Shop</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="me-auto" navbar>

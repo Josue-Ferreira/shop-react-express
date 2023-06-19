@@ -12,6 +12,7 @@ import store from './app/store';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
+import SuccessSignup from './pages/SuccessSignup';
 
 const router = createBrowserRouter([
   {
@@ -27,9 +28,13 @@ const router = createBrowserRouter([
     element: <Signup />
   },
   {
+    path: '/sign-up/success',
+    element: <SuccessSignup />
+  },
+  {
     path: '/profile',
     element: <Profile />
-  }
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

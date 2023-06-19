@@ -51,7 +51,21 @@ const userGetProfile = (req, res) => {
 }
 
 const createUser = (req, res) => {
-    // get body json datas
+    const {first_name, last_name, email, password}  = req.body;
+
+    const hash = bcrypt.hashSync(password, 10);
+    const token = genToken(15);
+
+    database.query('INSERT INTO user(first_name, last_name, email, password, created_at, is_admin, token) VALUES (?,?,?,?,NOW(),0,?)',[first_name, last_name, email, hash,token],
+        (err, results, fields) => {
+            if(err){
+                res.sendStatus(500);
+                throw err;
+            }
+            else{
+                res.sendStatus(200); 
+            }
+        });
 }
 
 module.exports = {

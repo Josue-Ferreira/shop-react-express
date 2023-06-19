@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import './Cart.css';
@@ -38,49 +38,30 @@ const Cart = ({open, setOpen}) => {
     const saveCartOnDB = async() => {
         const products_id = []; 
         cart.forEach(product => products_id.push(product.id));
-        let responseDB = await fetch('/cart/'+user.id);
-        const responseJson = await responseDB.json();
-        
-        if(responseJson.length == 0){
-            responseDB = await fetch('/cart',{
+        const responseDB = await fetch('/cart',{
                 method: "POST",
                 headers:{
                     "Content-type": "application/json"
                 },
                 body: JSON.stringify({"products_id": products_id, "user_id": user.id})
             });
-        }else{
-            responseDB = await fetch('/cart',{
-                method: "PUT",
-                headers:{
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify({"products_id": products_id, "user_id": user.id})
-            });
-        }
-        console.log(responseJson);
     }
 
     const deleteCart = async() => {
         dispatch(removeAll());
         setOpen(false);
-
-        // if(user){
-        //     let responseDB = await fetch('/cart/'+user.id);
-        //     const responseJson = await responseDB.json();
-        
-        //     if(responseJson.length != 0){
-        //         const responseDB = await fetch('/cart',{
-        //             method: "DELETE",
-        //             headers:{
-        //                 "Content-type": "application/json"
-        //             },
-        //             body: JSON.stringify({"user_id": user.id})
-        //         });
-        //         console.log(responseDB);
-        //     }
-        // }
     }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            if(user && cart){
+                saveCartOnDB();
+                console.log('saved cart on DB')
+            }
+        }, 5000);
+
+        return () => clearInterval(timer);
+    }, []);
 
     return (
         <Container id='cart' className={open ? 'open-cart' : 'close-cart'}>

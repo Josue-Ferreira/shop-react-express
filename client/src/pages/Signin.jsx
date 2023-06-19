@@ -15,7 +15,7 @@ import { logIn } from '../features/user/userSlice';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    height: 50vh;
+    /* height: 50vh; */
     width: 50vw;
     margin: auto;
     justify-content: center;
@@ -43,8 +43,8 @@ const Signin = () => {
             },
             body: JSON.stringify({"email": email, "password": password})
         });
-        const responseJson = await responseDB.json();
         if(responseDB.status == 200){
+            const responseJson = await responseDB.json();
             dispatch(logIn(responseJson[0]));
             setValidCredentials(true);
             navigate('/');
